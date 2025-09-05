@@ -16,8 +16,8 @@ jobs:
   build-index:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-      - uses: actions/checkout@v4
+      - name: Checkout repo
+        uses: actions/checkout@v4
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -27,7 +27,8 @@ jobs:
       - name: Generate index.json
         env:
           REPO: ${{ github.repository }}
-          BRANCH: ${{ github.ref_name }}
+          BRANCH_REF_NAME: ${{ github.ref_name }}
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
         run: |
           node <<'NODE'
           const fs = require('fs');
@@ -35,12 +36,12 @@ jobs:
 
           const root = process.cwd();
 
-          /** Recursively find all PDFs in repo */
+          // Recursively find all PDFs in repo
           function walk(dir) {
             return fs.readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
               const p = path.join(dir, entry.name);
               if (entry.isDirectory()) {
-                if (entry.name === '.git' || entry.name === 'node_modules') return [];
+                if (entry.name === '.git' || entry.name === 'node_modules' || entry.name === '.github') return [];
                 return walk(p);
               }
               return entry.isFile() && entry.name.toLowerCase().endsWith('.pdf') ? [p] : [];
@@ -51,11 +52,11 @@ jobs:
 
           const monthMap = {
             jan: '01', feb: '02', mar: '03', apr: '04', may: '05', jun: '06',
-            jul: '07', aug: '08', sep: '09', oct: '10', nov: '11', dec: '12'
+            jul: '07', aug: '08', sep: '09', sept: '09', oct: '10', nov: '11', dec: '12'
           };
 
           function normalizeCategory(raw) {
-            const r = raw.trim().toLowerCase();
+            const r = raw.trim().toLowerCase().replace(/\s+/g,' ');
             if (r.startsWith('agenda')) return 'Agenda';
             if (r.startsWith('minutes')) return 'Minutes';
             if (r.startsWith('addendum')) return 'Addendum';
@@ -68,24 +69,29 @@ jobs:
             const base = path.basename(relPath);
             const name = base.replace(/\.pdf$/i, '');
 
+            // Normalise hyphens (handle en-dash/em-dash) and spaces
+            const normal = name.replace(/[\u2013\u2014]/g, '-');
+
             // Expect patterns like:
             // "Agenda Package - Council Briefing_11Sep_2025"
             // "Minutes - Infrastructure Committee_03Oct_2024"
-            const parts = name.split(' - ');
-            let categoryRaw = parts[0] || '';
-            let remainder = parts.slice(1).join(' - ');
+            const parts = normal.split(' - ');
+            const categoryRaw = parts[0] || '';
+            const remainder = parts.slice(1).join(' - ');
 
-            // meeting is everything before the final _DATE segment
-            // date chunk like _11Sep_2025 at end
-            const m = remainder.match(/_(\d{1,2})([A-Za-z]{3})_(\d{4})$/);
+            // date chunk like _11Sep_2025 at end (Sep or Sept allowed)
+            const m = remainder.match(/_(\d{1,2})([A-Za-z]{3,4})_(\d{4})$/);
             if (!m) {
+              const repo = process.env.REPO; // owner/repo
+              const branch = process.env.BRANCH_REF_NAME || process.env.DEFAULT_BRANCH || 'master';
+              const rawUrl = `https://raw.githubusercontent.com/${repo}/${branch}/${encodeURI(relPath).replace(/#/g, '%23')}`;
               return {
                 date: null,
-                meeting: remainder.trim(),
+                meeting: remainder.replace(/_/g, ' ').trim(),
                 category: normalizeCategory(categoryRaw),
                 filename: base,
                 path: relPath,
-                url: null,
+                url: rawUrl,
                 parse_warning: 'Could not parse date from filename.'
               };
             }
@@ -94,10 +100,10 @@ jobs:
             const dd = String(d).padStart(2, '0');
             const iso = `${y}-${mon}-${dd}`;
 
-            const meeting = remainder.slice(0, -full.length).replace(/[_\-]+$/,'').replace(/_/g, ' ').trim();
+            const meeting = remainder.slice(0, -full.length).replace(/[ _-]+$/,'').replace(/_/g, ' ').trim();
 
             const repo = process.env.REPO; // owner/repo
-            const branch = process.env.BRANCH || 'master';
+            const branch = process.env.BRANCH_REF_NAME || process.env.DEFAULT_BRANCH || 'master';
             const rawUrl = `https://raw.githubusercontent.com/${repo}/${branch}/${encodeURI(relPath).replace(/#/g, '%23')}`;
 
             return {
