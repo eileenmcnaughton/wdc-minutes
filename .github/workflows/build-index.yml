@@ -1,0 +1,131 @@
+name: Build WDC minutes index
+
+on:
+  push:
+    paths:
+      - '**/*.pdf'
+      - '.github/workflows/build-index.yml'
+  workflow_dispatch: {}
+  schedule:
+    - cron: '0 3 * * *' # daily at 03:00 UTC
+
+permissions:
+  contents: write
+
+jobs:
+  build-index:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Generate index.json
+        env:
+          REPO: ${{ github.repository }}
+          BRANCH: ${{ github.ref_name }}
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          const path = require('path');
+
+          const root = process.cwd();
+
+          /** Recursively find all PDFs in repo */
+          function walk(dir) {
+            return fs.readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
+              const p = path.join(dir, entry.name);
+              if (entry.isDirectory()) {
+                if (entry.name === '.git' || entry.name === 'node_modules') return [];
+                return walk(p);
+              }
+              return entry.isFile() && entry.name.toLowerCase().endsWith('.pdf') ? [p] : [];
+            });
+          }
+
+          const files = walk(root).map(abs => path.relative(root, abs).replace(/\\/g,'/'));
+
+          const monthMap = {
+            jan: '01', feb: '02', mar: '03', apr: '04', may: '05', jun: '06',
+            jul: '07', aug: '08', sep: '09', oct: '10', nov: '11', dec: '12'
+          };
+
+          function normalizeCategory(raw) {
+            const r = raw.trim().toLowerCase();
+            if (r.startsWith('agenda')) return 'Agenda';
+            if (r.startsWith('minutes')) return 'Minutes';
+            if (r.startsWith('addendum')) return 'Addendum';
+            if (r === 'toc' || r.startsWith('table of contents')) return 'TOC';
+            if (r.startsWith('attachments') || r.startsWith('attachment')) return 'Attachments';
+            return raw.trim();
+          }
+
+          function parseItem(relPath) {
+            const base = path.basename(relPath);
+            const name = base.replace(/\.pdf$/i, '');
+
+            // Expect patterns like:
+            // "Agenda Package - Council Briefing_11Sep_2025"
+            // "Minutes - Infrastructure Committee_03Oct_2024"
+            const parts = name.split(' - ');
+            let categoryRaw = parts[0] || '';
+            let remainder = parts.slice(1).join(' - ');
+
+            // meeting is everything before the final _DATE segment
+            // date chunk like _11Sep_2025 at end
+            const m = remainder.match(/_(\d{1,2})([A-Za-z]{3})_(\d{4})$/);
+            if (!m) {
+              return {
+                date: null,
+                meeting: remainder.trim(),
+                category: normalizeCategory(categoryRaw),
+                filename: base,
+                path: relPath,
+                url: null,
+                parse_warning: 'Could not parse date from filename.'
+              };
+            }
+            const [full, d, monAbbr, y] = m;
+            const mon = monthMap[monAbbr.toLowerCase()];
+            const dd = String(d).padStart(2, '0');
+            const iso = `${y}-${mon}-${dd}`;
+
+            const meeting = remainder.slice(0, -full.length).replace(/[_\-]+$/,'').replace(/_/g, ' ').trim();
+
+            const repo = process.env.REPO; // owner/repo
+            const branch = process.env.BRANCH || 'master';
+            const rawUrl = `https://raw.githubusercontent.com/${repo}/${branch}/${encodeURI(relPath).replace(/#/g, '%23')}`;
+
+            return {
+              date: iso,
+              meeting,
+              category: normalizeCategory(categoryRaw),
+              filename: base,
+              path: relPath,
+              url: rawUrl
+            };
+          }
+
+          const items = files.map(parseItem);
+
+          // sort newest first, with unparsable dates last
+          items.sort((a,b) => {
+            if (!a.date && !b.date) return a.filename.localeCompare(b.filename);
+            if (!a.date) return 1;
+            if (!b.date) return -1;
+            return b.date.localeCompare(a.date);
+          });
+
+          fs.writeFileSync('index.json', JSON.stringify(items, null, 2));
+          console.log(`Wrote index.json with ${items.length} items.`);
+          NODE
+
+      - name: Commit & push index.json
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: build/update index.json"
+          file_pattern: index.json
