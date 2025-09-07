@@ -1244,8 +1244,71 @@
   "filename": "Agenda Package - Information Agenda_25Jul_2025.pdf",
   "path": "Agenda Package - Information Agenda_25Jul_2025.pdf",
   "url": "https://eileenmcnaughton.github.io/wdc-minutes/Agenda%20Package%20-%20Information%20Agenda_25Jul_2025.pdf"
-}
+},
+[
+  {
+    "date": "2023-06-30",
+    "meeting": "Annual Plan",
+    "category": "Annual Plan",
+    "filename": "2022-2023-annual-plan.pdf",
+    "path": "annual_plans/2022-2023-annual-plan.pdf",
+    "url": "https://eileenmcnaughton.github.io/wdc-minutes/annual_plans/2022-2023-annual-plan.pdf"
+  },
+  {
+    "date": "2024-06-30",
+    "meeting": "Annual Plan",
+    "category": "Annual Plan",
+    "filename": "2023-2024-annual-plan.pdf",
+    "path": "annual_plans/2023-2024-annual-plan.pdf",
+    "url": "https://eileenmcnaughton.github.io/wdc-minutes/annual_plans/2023-2024-annual-plan.pdf"
+  },
+  {
+    "date": "2026-06-30",
+    "meeting": "Annual Plan",
+    "category": "Annual Plan",
+    "filename": "2025-2026-annual-plan.pdf",
+    "path": "annual_plans/2025-2026-annual-plan.pdf",
+    "url": "https://eileenmcnaughton.github.io/wdc-minutes/annual_plans/2025-2026-annual-plan.pdf"
+  },
 
-
-
+  {
+    "date": "2018-06-30",
+    "meeting": "Long-Term Plan",
+    "category": "Long-Term Plan",
+    "filename": "long-term-plan-2018-2028.pdf",
+    "path": "annual_plans/long-term-plan-2018-2028.pdf",
+    "url": "https://eileenmcnaughton.github.io/wdc-minutes/annual_plans/long-term-plan-2018-2028.pdf"
+  },
+  {
+    "date": "2021-06-30",
+    "meeting": "Long-Term Plan",
+    "category": "Long-Term Plan",
+    "filename": "long-term-plan-2021-2031-vol-1.pdf",
+    "path": "annual_plans/long-term-plan-2021-2031-vol-1.pdf",
+    "url": "https://eileenmcnaughton.github.io/wdc-minutes/annual_plans/long-term-plan-2021-2031-vol-1.pdf"
+  },
+  {
+    "date": "2021-06-30",
+    "meeting": "Long-Term Plan",
+    "category": "Long-Term Plan",
+    "filename": "long-term-plan-2021-2031-vol-2.pdf",
+    "path": "annual_plans/long-term-plan-2021-2031-vol-2.pdf",
+    "url": "https://eileenmcnaughton.github.io/wdc-minutes/annual_plans/long-term-plan-2021-2031-vol-2.pdf"
+  },
+  {
+    "date": "2024-06-30",
+    "meeting": "Long-Term Plan",
+    "category": "Long-Term Plan",
+    "filename": "long-term-plan-2024-2034-vol-1.pdf",
+    "path": "annual_plans/long-term-plan-2024-2034-vol-1.pdf",
+    "url": "https://eileenmcnaughton.github.io/wdc-minutes/annual_plans/long-term-plan-2024-2034-vol-1.pdf"
+  },
+  {
+    "date": "2024-06-30",
+    "meeting": "Long-Term Plan",
+    "category": "Long-Term Plan",
+    "filename": "long-term-plan-2024-2034-vol-2.pdf",
+    "path": "annual_plans/long-term-plan-2024-2034-vol-2.pdf",
+    "url": "https://eileenmcnaughton.github.io/wdc-minutes/annual_plans/long-term-plan-2024-2034-vol-2.pdf"
+  }    
 ]
