@@ -779,7 +779,10 @@
     "category": "Annual Report",
     "filename": "2023-2024-annual-report.pdf",
     "path": "annual_reports/2023-2024-annual-report.pdf",
-    "url": "https://eileenmcnaughton.github.io/wdc-minutes/annual_reports/2023-2024-annual-report.pdf"
+    "url": [
+      "https://eileenmcnaughton.github.io/wdc-minutes/annual_reports/2023-2024-annual-report.pdf",
+      "https://www.wdc.govt.nz/files/assets/public/v/1/documents/council/reports/annual-reports/2023-2024-annual-report.pdf"
+    ]
   },
 
   {
