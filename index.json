@@ -1228,7 +1228,24 @@
   "path": "Submission Volume Index including late submissions .pdf",
   "url": "https://eileenmcnaughton.github.io/wdc-minutes/Submission%20Volume%20Index%20including%20late%20submissions%20.pdf",
   "parse_warning": "No date in filename"
+},
+{
+  "date": "2025-08-22",
+  "meeting": "Information Agenda",
+  "category": "Agenda",
+  "filename": "Agenda Package - Information Agenda_22Aug_2025.pdf",
+  "path": "Agenda Package - Information Agenda_22Aug_2025.pdf",
+  "url": "https://eileenmcnaughton.github.io/wdc-minutes/Agenda%20Package%20-%20Information%20Agenda_22Aug_2025.pdf"
+},
+{
+  "date": "2025-07-25",
+  "meeting": "Information Agenda",
+  "category": "Agenda",
+  "filename": "Agenda Package - Information Agenda_25Jul_2025.pdf",
+  "path": "Agenda Package - Information Agenda_25Jul_2025.pdf",
+  "url": "https://eileenmcnaughton.github.io/wdc-minutes/Agenda%20Package%20-%20Information%20Agenda_25Jul_2025.pdf"
 }
+
 
 
 ]
