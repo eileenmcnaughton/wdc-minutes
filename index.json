@@ -812,15 +812,6 @@
     "parse_warning": "No date in filename"
   },
   {
-    "date": null,
-    "meeting": "",
-    "category": "Attachments",
-    "filename": "Attachment Item 4.2 Draft Policies for consultation alongside the LTP 2024-34.pdf",
-    "path": "Attachment Item 4.2 Draft Policies for consultation alongside the LTP 2024-34.pdf",
-    "url": "https://eileenmcnaughton.github.io/wdc-minutes/Attachment%20Item%204.2%20Draft%20Policies%20for%20consultation%20alongside%20the%20LTP%202024-34.pdf",
-    "parse_warning": "No date in filename"
-  },
-  {
     "date": "2024-06-30",
     "meeting": "Risk and Audit Committee",
     "category": "Attachments",
