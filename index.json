@@ -721,7 +721,10 @@
     "category": "Annual Report",
     "filename": "2019-2020-annual-report.pdf",
     "path": "annual_reports/2019-2020-annual-report.pdf",
-    "url": "https://eileenmcnaughton.github.io/wdc-minutes/annual_reports/2019-2020-annual-report.pdf"
+    "url": [
+      "https://eileenmcnaughton.github.io/wdc-minutes/annual_reports/2019-2020-annual-report.pdf",
+      "https://www.wdc.govt.nz/files/assets/public/documents/council/reports/annual-reports/annual-report-2019-20.pdf"
+    ]
   },
   {
     "date": "2021-06-30",
@@ -729,7 +732,10 @@
     "category": "Annual Report",
     "filename": "2020-2021-annual-report.pdf",
     "path": "annual_reports/2020-2021-annual-report.pdf",
-    "url": "https://eileenmcnaughton.github.io/wdc-minutes/annual_reports/2020-2021-annual-report.pdf"
+    "url": [
+      "https://eileenmcnaughton.github.io/wdc-minutes/annual_reports/2020-2021-annual-report.pdf",
+      "https://www.wdc.govt.nz/files/assets/public/documents/council/reports/annual-reports/annual-report-2020-21.pdf"
+    ]
   },
   {
     "date": "2022-06-30",
@@ -737,7 +743,10 @@
     "category": "Annual Report",
     "filename": "2021-2022-annual-report.pdf",
     "path": "annual_reports/2021-2022-annual-report.pdf",
-    "url": "https://eileenmcnaughton.github.io/wdc-minutes/annual_reports/2021-2022-annual-report.pdf"
+    "url": [
+      "https://eileenmcnaughton.github.io/wdc-minutes/annual_reports/2021-2022-annual-report.pdf",
+      "https://www.wdc.govt.nz/files/assets/public/documents/council/reports/annual-reports/annual-report-2021-22.pdf"
+    ]
   },
   {
     "date": "2023-06-30",
@@ -745,7 +754,10 @@
     "category": "Annual Report",
     "filename": "2022-2023-annual-report.pdf",
     "path": "annual_reports/2022-2023-annual-report.pdf",
-    "url": "https://eileenmcnaughton.github.io/wdc-minutes/annual_reports/2022-2023-annual-report.pdf"
+    "url": [
+      "https://eileenmcnaughton.github.io/wdc-minutes/annual_reports/2022-2023-annual-report.pdf",
+      "https://www.wdc.govt.nz/files/assets/public/v/3/documents/council/reports/annual-reports/2022-2023-annual-report.pdf"
+    ]
   },
   {
     "date": "2024-06-30",
