@@ -1,0 +1,12 @@
+{
+  "sources": [
+    {
+      "name": "index",
+      "url": "https://raw.githubusercontent.com/eileenmcnaughton/wdc-minutes/refs/heads/master/index.json"
+    },
+    {
+      "name": "meetings",
+      "url": "https://raw.githubusercontent.com/eileenmcnaughton/wdc-minutes/refs/heads/master/meetings.json"
+    }
+  ]
+}
