@@ -21,7 +21,9 @@
     "category": "Agenda",
     "filename": "Agenda Package - Te Karearea Strategic Partnership Standing Committee_09Sep_2025.pdf",
     "path": "Agenda Package - Te Karearea Strategic Partnership Standing Committee_09Sep_2025.pdf",
-    "url": "https://eileenmcnaughton.github.io/wdc-minutes/Agenda%20Package%20-%20Te%20Karearea%20Strategic%20Partnership%20Standing%20Committee_09Sep_2025.pdf"
+    "url": [
+      "https://eileenmcnaughton.github.io/wdc-minutes/Agenda%20Package%20-%20Te%20Karearea%20Strategic%20Partnership%20Standing%20Committee_09Sep_2025.pdf"
+    ]
   },
   {
     "date": "2025-09-05",
@@ -29,7 +31,10 @@
     "category": "Agenda",
     "filename": "Agenda Package - Information Agenda_05Sep_2025.pdf",
     "path": "Agenda Package - Information Agenda_05Sep_2025.pdf",
-    "url": "https://eileenmcnaughton.github.io/wdc-minutes/Agenda%20Package%20-%20Information%20Agenda_05Sep_2025.pdf"
+    "url": [
+      "https://eileenmcnaughton.github.io/wdc-minutes/Agenda%20Package%20-%20Information%20Agenda_05Sep_2025.pdf",
+      "https://pub-wdc.escribemeetings.com/FileStream.ashx?DocumentId=4828"
+    ]
   },
   {
     "date": "2025-04-29",
