@@ -5,8 +5,8 @@
       "url": "https://raw.githubusercontent.com/eileenmcnaughton/wdc-minutes/refs/heads/master/index.json"
     },
     {
-      "name": "meetings",
-      "url": "https://raw.githubusercontent.com/eileenmcnaughton/wdc-minutes/refs/heads/master/meetings.json"
+      "name": "minutes",
+      "url": "https://raw.githubusercontent.com/eileenmcnaughton/wdc-minutes/refs/heads/master/minutes.json"
     }
   ]
 }
