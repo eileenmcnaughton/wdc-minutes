@@ -2,11 +2,68 @@
   "sources": [
     {
       "name": "index",
+      "description": "Every document mirrored in this repo",
       "url": "https://raw.githubusercontent.com/eileenmcnaughton/wdc-minutes/refs/heads/master/index.json"
     },
     {
       "name": "minutes",
+      "description": "Every set of minutes, mirrored or on eScribe",
       "url": "https://raw.githubusercontent.com/eileenmcnaughton/wdc-minutes/refs/heads/master/minutes.json"
+    },
+    {
+      "name": "topics",
+      "description": "Topic -> agenda items across all meetings",
+      "url": "https://raw.githubusercontent.com/eileenmcnaughton/wdc-minutes/refs/heads/master/catalog/topics.json"
+    },
+    {
+      "name": "meetings-2026",
+      "description": "All 2026 meetings: documents, agenda items, topics",
+      "url": "https://raw.githubusercontent.com/eileenmcnaughton/wdc-minutes/refs/heads/master/catalog/meetings/2026.json"
+    },
+    {
+      "name": "meetings-2025",
+      "description": "All 2025 meetings: documents, agenda items, topics",
+      "url": "https://raw.githubusercontent.com/eileenmcnaughton/wdc-minutes/refs/heads/master/catalog/meetings/2025.json"
+    },
+    {
+      "name": "meetings-2024",
+      "description": "All 2024 meetings: documents, agenda items, topics",
+      "url": "https://raw.githubusercontent.com/eileenmcnaughton/wdc-minutes/refs/heads/master/catalog/meetings/2024.json"
+    },
+    {
+      "name": "meetings-2023",
+      "description": "All 2023 meetings: documents, agenda items, topics",
+      "url": "https://raw.githubusercontent.com/eileenmcnaughton/wdc-minutes/refs/heads/master/catalog/meetings/2023.json"
+    },
+    {
+      "name": "meetings-2022",
+      "description": "All 2022 meetings: documents, agenda items, topics",
+      "url": "https://raw.githubusercontent.com/eileenmcnaughton/wdc-minutes/refs/heads/master/catalog/meetings/2022.json"
+    },
+    {
+      "name": "meetings-2021",
+      "description": "All 2021 meetings: documents, agenda items, topics",
+      "url": "https://raw.githubusercontent.com/eileenmcnaughton/wdc-minutes/refs/heads/master/catalog/meetings/2021.json"
+    },
+    {
+      "name": "meetings-2020",
+      "description": "All 2020 meetings: documents, agenda items, topics",
+      "url": "https://raw.githubusercontent.com/eileenmcnaughton/wdc-minutes/refs/heads/master/catalog/meetings/2020.json"
+    },
+    {
+      "name": "meetings-2019",
+      "description": "All 2019 meetings: documents, agenda items, topics",
+      "url": "https://raw.githubusercontent.com/eileenmcnaughton/wdc-minutes/refs/heads/master/catalog/meetings/2019.json"
+    },
+    {
+      "name": "meetings-2018",
+      "description": "All 2018 meetings: documents, agenda items, topics",
+      "url": "https://raw.githubusercontent.com/eileenmcnaughton/wdc-minutes/refs/heads/master/catalog/meetings/2018.json"
+    },
+    {
+      "name": "meetings-2017",
+      "description": "All 2017 meetings: documents, agenda items, topics",
+      "url": "https://raw.githubusercontent.com/eileenmcnaughton/wdc-minutes/refs/heads/master/catalog/meetings/2017.json"
     }
   ]
 }

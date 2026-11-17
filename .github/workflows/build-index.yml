@@ -4,6 +4,10 @@ on:
   push:
     paths:
       - '**/*.pdf'
+      - '**/*.pptx'
+      - '**/*.docx'
+      - 'catalog/sources/**'
+      - 'catalog/build_catalog.py'
       - '.github/workflows/build-index.yml'
   workflow_dispatch: {}
   schedule:
@@ -12,6 +16,10 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: build-index
+  cancel-in-progress: false
+
 jobs:
   build-index:
     runs-on: ubuntu-latest
@@ -19,119 +27,25 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      - name: Install pdftotext
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq poppler-utils
+
+      - name: Restore extracted-text cache
+        uses: actions/cache@v4
         with:
-          node-version: 20
+          path: catalog/.textcache
+          key: textcache-${{ github.run_id }}
+          restore-keys: textcache-
 
-      - name: Generate index.json
-        env:
-          REPO: ${{ github.repository }}
-          BRANCH_REF_NAME: ${{ github.ref_name }}
-          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+      - name: Build catalogue, index.json, minutes.json and data.json
         run: |
-          node <<'NODE'
-          const fs = require('fs');
-          const path = require('path');
+          python3 catalog/build_catalog.py . --write-repo-index \
+            --raw-base "https://raw.githubusercontent.com/${{ github.repository }}/refs/heads/${{ github.ref_name }}/"
 
-          const root = process.cwd();
-
-          // Recursively find all PDFs in repo
-          function walk(dir) {
-            return fs.readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
-              const p = path.join(dir, entry.name);
-              if (entry.isDirectory()) {
-                if (entry.name === '.git' || entry.name === 'node_modules' || entry.name === '.github') return [];
-                return walk(p);
-              }
-              return entry.isFile() && entry.name.toLowerCase().endsWith('.pdf') ? [p] : [];
-            });
-          }
-
-          const files = walk(root).map(abs => path.relative(root, abs).replace(/\\/g,'/'));
-
-          const monthMap = {
-            jan: '01', feb: '02', mar: '03', apr: '04', may: '05', jun: '06',
-            jul: '07', aug: '08', sep: '09', sept: '09', oct: '10', nov: '11', dec: '12'
-          };
-
-          function normalizeCategory(raw) {
-            const r = raw.trim().toLowerCase().replace(/\s+/g,' ');
-            if (r.startsWith('agenda')) return 'Agenda';
-            if (r.startsWith('minutes')) return 'Minutes';
-            if (r.startsWith('addendum')) return 'Addendum';
-            if (r === 'toc' || r.startsWith('table of contents')) return 'TOC';
-            if (r.startsWith('attachments') || r.startsWith('attachment')) return 'Attachments';
-            return raw.trim();
-          }
-
-          function parseItem(relPath) {
-            const base = path.basename(relPath);
-            const name = base.replace(/\.pdf$/i, '');
-
-            // Normalise hyphens (handle en-dash/em-dash) and spaces
-            const normal = name.replace(/[\u2013\u2014]/g, '-');
-
-            // Expect patterns like:
-            // "Agenda Package - Council Briefing_11Sep_2025"
-            // "Minutes - Infrastructure Committee_03Oct_2024"
-            const parts = normal.split(' - ');
-            const categoryRaw = parts[0] || '';
-            const remainder = parts.slice(1).join(' - ');
-
-            // date chunk like _11Sep_2025 at end (Sep or Sept allowed)
-            const m = remainder.match(/_(\d{1,2})([A-Za-z]{3,4})_(\d{4})$/);
-            if (!m) {
-              const repo = process.env.REPO; // owner/repo
-              const branch = process.env.BRANCH_REF_NAME || process.env.DEFAULT_BRANCH || 'master';
-              const rawUrl = `https://raw.githubusercontent.com/${repo}/${branch}/${encodeURI(relPath).replace(/#/g, '%23')}`;
-              return {
-                date: null,
-                meeting: remainder.replace(/_/g, ' ').trim(),
-                category: normalizeCategory(categoryRaw),
-                filename: base,
-                path: relPath,
-                url: rawUrl,
-                parse_warning: 'Could not parse date from filename.'
-              };
-            }
-            const [full, d, monAbbr, y] = m;
-            const mon = monthMap[monAbbr.toLowerCase()];
-            const dd = String(d).padStart(2, '0');
-            const iso = `${y}-${mon}-${dd}`;
-
-            const meeting = remainder.slice(0, -full.length).replace(/[ _-]+$/,'').replace(/_/g, ' ').trim();
-
-            const repo = process.env.REPO; // owner/repo
-            const branch = process.env.BRANCH_REF_NAME || process.env.DEFAULT_BRANCH || 'master';
-            const rawUrl = `https://raw.githubusercontent.com/${repo}/${branch}/${encodeURI(relPath).replace(/#/g, '%23')}`;
-
-            return {
-              date: iso,
-              meeting,
-              category: normalizeCategory(categoryRaw),
-              filename: base,
-              path: relPath,
-              url: rawUrl
-            };
-          }
-
-          const items = files.map(parseItem);
-
-          // sort newest first, with unparsable dates last
-          items.sort((a,b) => {
-            if (!a.date && !b.date) return a.filename.localeCompare(b.filename);
-            if (!a.date) return 1;
-            if (!b.date) return -1;
-            return b.date.localeCompare(a.date);
-          });
-
-          fs.writeFileSync('index.json', JSON.stringify(items, null, 2));
-          console.log(`Wrote index.json with ${items.length} items.`);
-          NODE
-
-      - name: Commit & push index.json
+      - name: Commit & push generated files
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "chore: build/update index.json"
-          file_pattern: index.json
+          commit_message: "chore: rebuild catalogue and index"
+          file_pattern: >-
+            index.json minutes.json data.json
+            catalog/*.json catalog/meetings/*.json catalog/COVERAGE.md catalog/missing-urls.txt
